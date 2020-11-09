@@ -42,15 +42,22 @@ Usage of sign-your-horse.exe:
 {
 	"provider": [
 		{
-			"name": "chaoxing",
+			"name": "chaoxing_default",
+			"module": "chaoxing",
 			"config": {
-				"alias": "",
 				"cookie": "",
 				"useragent": "",
 				"uid": "",
 				"courseid": "",
 				"classid": "",
 				"interval": 5
+			}
+		},
+		{
+			"name": "teachermate_default",
+			"module": "teachermate",
+			"config": {
+				"server": "0.0.0.0:3000"
 			}
 		}
 	],
@@ -63,7 +70,9 @@ Usage of sign-your-horse.exe:
 			"name": "wechat",
 			"config": {
 				"corpID": "",
-				"corpSecret": ""
+				"corpSecret": "",
+				"toparty": 0,
+				"agentid": 0
 			}
 		}
 	]
@@ -96,14 +105,14 @@ interval: 5
 
 工作原理如下：
 
-[CloudScan APP]()/CloudScan Web -> Sign-your-horse Server -> QRCode/Redirect/Text
+[CloudScan APP](https://github.com/naivekun/cloudscan-android)/CloudScan Web -> Sign-your-horse Server -> QRCode/Redirect/Text
 
 到教室的同学使用[CloudScan APP](https://github.com/naivekun/cloudscan-android)或CloudScan Web(自带)扫描二维码 发送到后端
 
 其他同学使用微信扫描后端提供的二维码或在微信里点击重定向链接即可跳转到签到页面
 
 * `/static/qr.html` 3秒刷新一次验证码，可供直接使用微信扫描
-* `/static/scan.html` CloudScan Web，到教室的同学使用，会使用浏览器调用摄像头，扫描二维码上传签到信息
+* `/static/scan.html` CloudScan Web，到教室的同学使用，会使用浏览器调用摄像头，扫描二维码上传签到信息。Thanks to @EarthC
 * `/url/add` 上传接口
 * `/url/redirect` 重定向接口，点一下直接302跳到签到页面，适合微助教这种依赖微信登录的使用
 * `/url/raw` 获取url明文
@@ -116,7 +125,7 @@ Reporter用于接收Provider推送的数据，一般来说是签到成功/失败
 
 用于向微信企业号推送消息
 
-配合微助教完成一键url跳转
+实时反馈签到状态，并配合微助教完成一键url跳转签到
 
 ### console
 
