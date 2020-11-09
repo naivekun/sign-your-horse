@@ -1,0 +1,28 @@
+<html>
+<head>
+    <title>Cloud Scan</title>
+    <script src='/static/jquery.min.js'></script>
+    <script src='/static/qrcode.min.js'></script>
+</head>
+
+<body>
+
+<script>
+    setTimeout(()=>{
+        var qrcode = new QRCode("qrcode");
+        setInterval(()=>{
+            qrcode.clear()
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", '/url/raw', true);
+            xhr.onload = e => {
+                console.log(xhr.responseText);
+                qrcode.makeCode(xhr.responseText)
+            }
+            xhr.send();
+
+        }, 3000);
+    }, 0)
+</script>
+<div id="qrcode"></div> 
+</body>
+</html>
