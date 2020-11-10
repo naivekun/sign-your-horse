@@ -85,6 +85,8 @@ Usage of sign-your-horse.exe:
 }
 ```
 
+配置文件存在后即可直接运行，或使用`-config`指定配置文件运行
+
 ## Provider
 
 Provider适配各个签到平台，提供Init和Run方法和默认配置json
@@ -118,7 +120,7 @@ interval: 5
 其他同学使用微信扫描后端提供的二维码或在微信里点击重定向链接即可跳转到签到页面
 
 * `/static/qr.html` 3秒刷新一次验证码，可供直接使用微信扫描
-* `/static/scan.html` CloudScan Web，到教室的同学使用，会使用浏览器调用摄像头，扫描二维码上传签到信息。Thanks to @EarthC
+* `/static/scan.html` CloudScan Web，到教室的同学使用，会使用浏览器调用摄像头，扫描二维码上传签到信息。(Thanks to @EarthC，由于WebRTC强制要求HTTPS，本功能需要给http服务套一个https)
 * `/url/add` 上传接口
 * `/url/redirect` 重定向接口，点一下直接302跳到签到页面，适合微助教这种依赖微信登录的使用
 * `/url/raw` 获取url明文
