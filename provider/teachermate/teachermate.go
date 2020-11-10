@@ -11,7 +11,10 @@ import (
 
 type TeacherMateProvider struct {
 	ServerAddr string `json:"server"`
+	UseHTTPS   bool   `json:"usehttps"`
 	Alias      string `json:"-"`
+	ServerCert string `json:"srvcert"`
+	ServerKey  string `json:"srvkey"`
 }
 
 var pushMessage func(string, string) error
@@ -32,11 +35,16 @@ func (t *TeacherMateProvider) Run(pushMessage_ func(string, string) error) {
 	server.GET("/url/", urlinfo)
 	server.StaticFS("/static", box)
 	log.Println("server is listening at " + t.ServerAddr)
-	server.Run(t.ServerAddr)
+	if t.UseHTTPS {
+		server.RunTLS(t.ServerAddr, t.ServerCert, t.ServerKey)
+	} else {
+		server.Run(t.ServerAddr)
+	}
 }
 
 func init() {
 	provider.RegisterProvider("teachermate", &TeacherMateProvider{
 		ServerAddr: "0.0.0.0:3000",
+		UseHTTPS:   false,
 	})
 }
