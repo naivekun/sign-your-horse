@@ -107,7 +107,7 @@ classid: "班级ID",
 interval: 5
 ```
 
-### teachermage
+### teachermate
 
 微助教签到模块
 
