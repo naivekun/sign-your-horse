@@ -147,7 +147,7 @@ $ packr build
 
 ### reporter
 
-在reporter目录增加模块，实现Init和Report方法，init函数中使用`reporter.RegisterProvider`注册模块即可
+在reporter目录增加模块，实现Init和Report方法，init函数中使用`reporter.RegisterReporter`注册模块即可
 
 自带的console模块会简单把结果打印到stdout，用它直接改是个不错的选择
 
