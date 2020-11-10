@@ -111,7 +111,14 @@ interval: 5
 
 微助教签到模块
 
-工作原理如下：
+```
+"server": "0.0.0.0:3000",
+"usehttps": false,
+"srvcert": "服务端证书",
+"srvkey": "服务端私钥"
+```
+
+#### 工作原理
 
 [CloudScan APP](https://github.com/naivekun/cloudscan-android)/CloudScan Web -> Sign-your-horse Server -> QRCode/Redirect/Text
 
@@ -119,8 +126,14 @@ interval: 5
 
 其他同学使用微信扫描后端提供的二维码或在微信里点击重定向链接即可跳转到签到页面
 
-* `/static/qr.html` 3秒刷新一次验证码，可供直接使用微信扫描
-* `/static/scan.html` CloudScan Web，到教室的同学使用，会使用浏览器调用摄像头，扫描二维码上传签到信息。(Thanks to @EarthC，由于WebRTC强制要求HTTPS，本功能需要给http服务套一个https)
+CloudScan Web使用WebRTC调用摄像头，使用此功能必须开启HTTPS或者自己把HTTP前面套一层HTTPS，你可以用以下命令生成一个自签名服务器证书
+
+`openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes`
+
+#### HTTP接口说明
+
+* `/static/qr.html` 3秒刷新一次验证码，可供直接使用手机扫描
+* `/static/scan.html` CloudScan Web，到教室的同学使用，会使用浏览器调用摄像头，扫描二维码上传签到信息。(Thanks to @EarthC)
 * `/url/add` 上传接口
 * `/url/redirect` 重定向接口，点一下直接302跳到签到页面，适合微助教这种依赖微信登录的使用
 * `/url/raw` 获取url明文
