@@ -33,6 +33,8 @@ jobs:
       run: GOOS=linux packr build -v . && zip release-linux.zip sign-your-horse
     - name: Build - Windows
       run: GOOS=windows packr build -v . && zip release-windows.zip sign-your-horse.exe
+    - name: Build - MacOS
+      run: GOOS=darwin packr build -v . && zip release-macos.zip sign-your-horse
 
     - name: Create Release
       id: create_release
@@ -65,4 +67,15 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./release-windows.zip
         asset_name: release-windows.zip
+        asset_content_type: application/zip
+
+    - name: Upload Release Asset - MacOS
+      id: upload-release-asset-macos
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./release-macos.zip
+        asset_name: release-macos.zip
         asset_content_type: application/zip
