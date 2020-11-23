@@ -54,6 +54,17 @@ Usage of sign-your-horse.exe:
 	},
 	"provider": [
 		{
+			"name": "chaoxing_cloud_default",
+			"module": "chaoxing_cloud",
+			"config": {
+				"cookie": "",
+				"useragent": "",
+				"uid": "",
+				"courseid": "",
+				"classid": ""
+			}
+		},
+		{
 			"name": "teachermate_cloud_default",
 			"module": "teachermate_cloud",
 			"config": {}
@@ -67,22 +78,16 @@ Usage of sign-your-horse.exe:
 				"uid": "",
 				"courseid": "",
 				"classid": "",
-				"interval": 5
-			}
-		},
-		{
-			"name": "chaoxing_cloud_default",
-			"module": "chaoxing_cloud",
-			"config": {
-				"cookie": "",
-				"useragent": "",
-				"uid": "",
-				"courseid": "",
-				"classid": ""
+				"interval": 5,
+				"verbose": true
 			}
 		}
 	],
 	"reporter": [
+		{
+			"name": "console",
+			"config": {}
+		},
 		{
 			"name": "wechat",
 			"config": {
@@ -91,10 +96,6 @@ Usage of sign-your-horse.exe:
 				"toparty": 0,
 				"agentid": 0
 			}
-		},
-		{
-			"name": "console",
-			"config": {}
 		}
 	]
 }
@@ -119,7 +120,8 @@ useragent: "User-Agent",
 uid: "超星的uid，从cookie里面扣",
 courseid: "课程ID",
 classid: "班级ID",
-interval: 轮询间隔
+interval: 轮询间隔,
+verbose: 是否显示轮询结果
 ```
 
 ### chaoxing_cloud

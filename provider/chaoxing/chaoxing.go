@@ -13,13 +13,15 @@ import (
 )
 
 type ChaoxingProvider struct {
-	Alias               string                     `json:"-"`
-	Cookie              string                     `json:"cookie"`
-	UserAgent           string                     `json:"useragent"`
-	UserID              string                     `json:"uid"`
-	CourseID            string                     `json:"courseid"`
-	ClassID             string                     `json:"classid"`
-	TaskInterval        int                        `json:"interval"`
+	Alias           string `json:"-"`
+	Cookie          string `json:"cookie"`
+	UserAgent       string `json:"useragent"`
+	UserID          string `json:"uid"`
+	CourseID        string `json:"courseid"`
+	ClassID         string `json:"classid"`
+	TaskInterval    int    `json:"interval"`
+	ShowLoopMessage bool   `json:"verbose"`
+
 	PushMessageCallback func(string, string) error `json:"-"`
 }
 
@@ -61,7 +63,7 @@ func (c *ChaoxingProvider) Task() {
 		}
 		taskListString = taskListString[:finishedSepIndex]
 		tasksString := extractTasksRegex.FindAll([]byte(taskListString), -1)
-		if len(tasksString) == 0 {
+		if len(tasksString) == 0 && c.ShowLoopMessage {
 			log.Println("[" + c.Alias + "]" + " no task to do at " + time.Now().String())
 		} else {
 			for _, task := range tasksString {
@@ -95,6 +97,7 @@ func (c *ChaoxingProvider) Push(_ string) {}
 
 func init() {
 	provider.RegisterProvider("chaoxing", &ChaoxingProvider{
-		TaskInterval: 5,
+		TaskInterval:    5,
+		ShowLoopMessage: true,
 	})
 }
