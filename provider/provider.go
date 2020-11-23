@@ -6,8 +6,12 @@ import (
 )
 
 type Provider interface {
+	//Init(alias, configJson) error
 	Init(string, json.RawMessage) error
+	//Run(messageCallback)
 	Run(func(string, string) error)
+	//Push(message)
+	Push(string)
 }
 
 var providerMap = make(map[string]Provider)

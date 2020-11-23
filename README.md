@@ -46,7 +46,18 @@ Usage of sign-your-horse.exe:
 
 ```
 {
+	"cloudscan": {
+		"server": "0.0.0.0:3000",
+		"usehttps": false,
+		"srvcert": "",
+		"srvkey": ""
+	},
 	"provider": [
+		{
+			"name": "teachermate_cloud_default",
+			"module": "teachermate_cloud",
+			"config": {}
+		},
 		{
 			"name": "chaoxing_default",
 			"module": "chaoxing",
@@ -60,18 +71,18 @@ Usage of sign-your-horse.exe:
 			}
 		},
 		{
-			"name": "teachermate_default",
-			"module": "teachermate",
+			"name": "chaoxing_cloud_default",
+			"module": "chaoxing_cloud",
 			"config": {
-				"server": "0.0.0.0:3000"
+				"cookie": "",
+				"useragent": "",
+				"uid": "",
+				"courseid": "",
+				"classid": ""
 			}
 		}
 	],
 	"reporter": [
-		{
-			"name": "console",
-			"config": {}
-		},
 		{
 			"name": "wechat",
 			"config": {
@@ -80,6 +91,10 @@ Usage of sign-your-horse.exe:
 				"toparty": 0,
 				"agentid": 0
 			}
+		},
+		{
+			"name": "console",
+			"config": {}
 		}
 	]
 }
@@ -89,9 +104,9 @@ Usage of sign-your-horse.exe:
 
 ## Provider
 
-Provider适配各个签到平台，提供Init和Run方法和默认配置json
+Provider适配各个签到平台，提供Init/Run/Push方法和默认配置json。Run方法用于启动模块，常见于轮询签到的模块中。Push方法在cloudscan收到消息后会被依次调用，模块会处理从cloudscan收到的实时二维码数据。约定以`_cloudscan`结尾的模块需要实现Push方法，处理来自cloudscan的消息
 
-在配置文件中provider是一个列表，可指定某个平台的某个签到任务，如果有多节课需要签到可以配置多个provider即可
+在配置文件中provider是一个列表，可指定某个平台的某个签到任务，如果有多节课需要签到可以配置多个provider即可。
 
 ### chaoxing
 
@@ -104,19 +119,26 @@ useragent: "User-Agent",
 uid: "超星的uid，从cookie里面扣",
 courseid: "课程ID",
 classid: "班级ID",
-interval: 5
+interval: 轮询间隔
 ```
 
-### teachermate
+### chaoxing_cloud
+
+超星云签到模块，各个参数说明如下
+
+```
+alias: "别名，用于推送消息时区分各个任务",
+cookie: "超星登录cookie",
+useragent: "User-Agent",
+uid: "超星的uid，从cookie里面扣",
+courseid: "课程ID",
+classid: "班级ID",
+```
+
+### teachermate_cloud
 
 微助教签到模块
 
-```
-"server": "0.0.0.0:3000",
-"usehttps": false,
-"srvcert": "服务端证书",
-"srvkey": "服务端私钥"
-```
 
 #### 工作原理
 
@@ -124,7 +146,7 @@ interval: 5
 
 到教室的同学使用[CloudScan APP](https://github.com/naivekun/cloudscan-android)或CloudScan Web(自带)扫描二维码 发送到后端
 
-其他同学使用微信扫描后端提供的二维码或在微信里点击重定向链接即可跳转到签到页面
+后端可以直接处理二维码中包含的字符串信息，完成签到，对于依赖微信的微助教，其他同学使用微信扫描后端提供的二维码或在微信里点击重定向链接即可跳转到签到页面
 
 CloudScan Web使用WebRTC调用摄像头，使用此功能必须开启HTTPS或者自己把HTTP前面套一层HTTPS，你可以用以下命令生成一个自签名服务器证书
 

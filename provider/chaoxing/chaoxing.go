@@ -91,6 +91,8 @@ func (c *ChaoxingProvider) Run(pushMessage func(string, string) error) {
 	}
 }
 
+func (c *ChaoxingProvider) Push(_ string) {}
+
 func init() {
 	provider.RegisterProvider("chaoxing", &ChaoxingProvider{
 		TaskInterval: 5,

@@ -9,6 +9,7 @@ require (
 	github.com/gobuffalo/packr v1.30.1
 	github.com/gobuffalo/packr/v2 v2.8.1 // indirect
 	github.com/golang/protobuf v1.4.3 // indirect
+	github.com/gorilla/websocket v1.4.2
 	github.com/imroc/req v0.3.0
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/karrick/godirwalk v1.16.1 // indirect

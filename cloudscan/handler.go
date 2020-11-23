@@ -1,4 +1,4 @@
-package teachermate
+package cloudscan
 
 import (
 	"net/http"
@@ -31,8 +31,8 @@ func add(c *gin.Context) {
 		})
 		return
 	}
-	pushMessage("teachermate", "new url submitted: "+url)
 	currentURL = url
+	MessageChan <- currentURL
 	c.JSON(http.StatusOK, gin.H{
 		"status": "success",
 	})
