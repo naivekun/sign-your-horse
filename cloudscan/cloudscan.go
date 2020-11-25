@@ -43,10 +43,10 @@ func (t *CloudScanAPIServer) Run() {
 	server.StaticFS("/static", box)
 	common.LogWithModule(moduleName, "server is listening at "+t.ServerAddr)
 	if t.UseHTTPS {
-		server.RunTLS(t.ServerAddr, t.ServerCert, t.ServerKey)
+		common.Must(server.RunTLS(t.ServerAddr, t.ServerCert, t.ServerKey))
 	} else {
 		common.LogWithModule(moduleName, "server with http is not recommand! WebRTC and Websocket will not work")
-		server.Run(t.ServerAddr)
+		common.Must(server.Run(t.ServerAddr))
 	}
 }
 
