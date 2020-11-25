@@ -56,7 +56,6 @@ func (c *CloudScanMessageClient) Dispatcher(ctx context.Context, cancel context.
 			err := c.wsConn.ReadJSON(incommingMsg)
 			if err != nil {
 				common.LogWithModule(moduleName, "websocket ReadMessage failed: "+err.Error())
-				common.LogWithModule("debug", "client context end")
 				cancel()
 				break
 			}
@@ -115,7 +114,6 @@ func (c *CloudScanMessageClient) Run() {
 					c.MessageOutputChan <- d
 
 				case <-ctx.Done():
-					common.LogWithModule("debug", "client context end")
 					break lMessageInput
 				}
 			}
