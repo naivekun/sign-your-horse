@@ -20,7 +20,7 @@ func DumpCloudScanAPIServerConfig() json.RawMessage {
 	ret, _ := json.Marshal(&CloudScanAPIServer{
 		EnableServer:    true,
 		ServerAddr:      "0.0.0.0:3000",
-		UseHTTPS:        false,
+		UseHTTPS:        true,
 		ServerCert:      "cert.pem",
 		ServerKey:       "key.pem",
 		EnableAPIServer: true,

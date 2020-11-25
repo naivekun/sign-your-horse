@@ -24,7 +24,7 @@ func DumpCloudScanMessageClientConfig() json.RawMessage {
 		EnableClient:      false,
 		Verbose:           true,
 		HeartBeatInterval: 10,
-		APIServerAddress:  "wss://www.baidu.com/url/ws",
+		APIServerAddress:  "wss://www.pornhub.com/url/ws",
 		APIServerPassword: "1145141919810",
 	})
 	return ret
