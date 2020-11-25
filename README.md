@@ -141,6 +141,8 @@ Push方法在cloudscan收到消息后会被依次调用，模块会处理从clou
 
 超星签到模块，各个参数说明如下
 
+tasktime模块用于指定轮询签到时间，防止老师在非上课时间钓鱼执法
+
 ```
 alias: "别名，用于推送消息时区分各个任务",
 cookie: "超星登录cookie",
@@ -149,7 +151,17 @@ uid: "超星的uid，从cookie里面扣",
 courseid: "课程ID",
 classid: "班级ID",
 interval: 轮询间隔,
-verbose: 是否显示轮询结果
+tasktime: [ // 一个列表，成员如下
+	{
+		weekday: 4, //周四，周日是0
+		time: "07:45", //任务开始时间，格式为HH:MM
+		duration: 20 //签到活动持续时间，单位是分钟
+	},
+	{
+		//支持多个时间段签到
+	}
+]
+verbose: 是否显示详细信息
 ```
 
 #### chaoxing_cloud
