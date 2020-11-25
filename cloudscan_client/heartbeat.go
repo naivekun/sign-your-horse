@@ -17,7 +17,7 @@ func (c *CloudScanMessageClient) HeartBeatClient(ctx context.Context, cancel con
 		case t := <-ticker.C:
 			err := c.wsConn.WriteJSON(&WSMessage{
 				MessageType: WS_HEARTBEAT_CLIENT,
-				MessageData: strconv.FormatInt(t.Unix(), 10),
+				MessageData: strconv.FormatInt(t.UnixNano(), 10),
 			})
 			if err != nil {
 				common.LogWithModule(moduleName, "write heartbeat failed: "+err.Error())
@@ -34,7 +34,7 @@ func (c *CloudScanMessageClient) HeartBeatClient(ctx context.Context, cancel con
 					return
 				}
 				if c.Verbose {
-					common.LogWithModule(moduleName, "heartbeat latency "+strconv.FormatInt(t2-time.Now().Unix(), 10)+"ms")
+					common.LogWithModule(moduleName, "heartbeat latency %f ms", float64(time.Now().UnixNano()-t2)/1000000.0)
 				}
 
 			case <-ctx.Done():
