@@ -4,11 +4,13 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"sign-your-horse/cloudscan"
+	"sign-your-horse/cloudscan_client"
 	"sign-your-horse/common"
 )
 
 type Config struct {
 	CloudScanAPIServer json.RawMessage       `json:"cloudscan"`
+	CloudScanClient    json.RawMessage       `json:"cloudscan_client"`
 	Provider           []ProviderConfigBlock `json:"provider"`
 	Reporter           []ReporterConfigBlock `json:"reporter"`
 }
@@ -33,6 +35,7 @@ func CreateNewConfig(filename string) error {
 
 	config := &Config{}
 	config.CloudScanAPIServer = cloudscan.DumpCloudScanAPIServerConfig()
+	config.CloudScanClient = cloudscan_client.DumpCloudScanMessageClientConfig()
 	config.Provider = DumpProviderConfigBlock()
 	config.Reporter = DumpReporterConfigBlock()
 	configBytes, err := json.MarshalIndent(config, "", "\t")

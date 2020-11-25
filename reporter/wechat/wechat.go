@@ -3,7 +3,6 @@ package wechat
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"sign-your-horse/common"
 	"sign-your-horse/reporter"
 
@@ -57,7 +56,7 @@ func (w *WechatReporter) Report(msg string) error {
 	if err != nil {
 		return err
 	}
-	log.Println("wechat pusher: " + pushResp.String())
+	common.LogWithModule("wechat_push", "wechat pusher: "+pushResp.String())
 	return nil
 }
 

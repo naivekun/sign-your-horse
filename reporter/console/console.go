@@ -2,7 +2,7 @@ package console
 
 import (
 	"encoding/json"
-	"log"
+	"sign-your-horse/common"
 	"sign-your-horse/reporter"
 )
 
@@ -14,7 +14,7 @@ func (c *ConsoleReporter) Init(config json.RawMessage) error {
 }
 
 func (c *ConsoleReporter) Report(msg string) error {
-	log.Println("[Console Reporter]" + msg)
+	common.LogWithModule("Console Reporter", msg)
 	return nil
 }
 

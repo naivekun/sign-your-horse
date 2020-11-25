@@ -32,7 +32,7 @@ func add(c *gin.Context) {
 		return
 	}
 	currentURL = url
-	MessageChan <- currentURL
+	MessageInputChan <- currentURL
 	c.JSON(http.StatusOK, gin.H{
 		"status": "success",
 	})

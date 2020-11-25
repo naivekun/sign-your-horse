@@ -3,8 +3,8 @@ package chaoxing
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"regexp"
+	"sign-your-horse/common"
 	"sign-your-horse/provider"
 	"strings"
 	"time"
@@ -64,7 +64,7 @@ func (c *ChaoxingProvider) Task() {
 		taskListString = taskListString[:finishedSepIndex]
 		tasksString := extractTasksRegex.FindAll([]byte(taskListString), -1)
 		if len(tasksString) == 0 && c.ShowLoopMessage {
-			log.Println("[" + c.Alias + "]" + " no task to do at " + time.Now().String())
+			common.LogWithModule(c.Alias, " no task to do at "+time.Now().String())
 		} else {
 			for _, task := range tasksString {
 				taskID := extrackTaskIDRegex.Find(task)

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"sign-your-horse/cloudscan"
+	"sign-your-horse/cloudscan_client"
 	"sign-your-horse/common"
 	"sign-your-horse/conf"
 	"sign-your-horse/provider"
@@ -41,15 +42,26 @@ Sign-in as a Service               @naivekun`)
 	common.Must(err)
 	go cloudScanServer.Run()
 
+	cloudScanClient, err := cloudscan_client.Init(config.CloudScanClient)
+	common.Must(err)
+	go cloudScanClient.Run()
+
+	//run provider
 	_, providerList := provider.GetAllProviderInstance()
 	for _, provider := range providerList {
 		go provider.Run(reporter.CallReporter)
 	}
 
+	//handle cloudscan server message
 	for {
-		MessageData := <-cloudScanServer.APIMessageOutputChan
+		incommingMessage := ""
+		select {
+		case incommingMessage = <-cloudScanServer.APIMessageInputChan:
+		case incommingMessage = <-cloudScanClient.MessageOutputChan:
+		}
+		go cloudScanServer.Push(incommingMessage)
 		for _, provider := range providerList {
-			go provider.Push(MessageData)
+			go provider.Push(incommingMessage)
 		}
 	}
 }

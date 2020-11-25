@@ -1,5 +1,10 @@
 package common
 
-func LogWithModule(name, msg string) string {
-	return "[" + name + "]" + msg
+import (
+	"fmt"
+	"log"
+)
+
+func LogWithModule(name, msg string, format ...interface{}) {
+	log.Println("[" + name + "]" + fmt.Sprintf(msg, format...))
 }
