@@ -27,7 +27,7 @@ Usage of sign-your-horse.exe:
 	"cloudscan": {
 		"server_enable": true,
 		"server": "0.0.0.0:3000",
-		"usehttps": false,
+		"usehttps": true,
 		"srvcert": "cert.pem",
 		"srvkey": "key.pem",
 		"ws_api_enable": true,
@@ -35,25 +35,12 @@ Usage of sign-your-horse.exe:
 	},
 	"cloudscan_client": {
 		"client_enable": false,
-		"server": "wss://www.baidu.com/url/ws",
+		"server": "wss://www.pornhub.com/url/ws",
 		"ws_api_password": "1145141919810",
 		"verbose": true,
 		"heartbeat_interval": 10
 	},
 	"provider": [
-		{
-			"name": "chaoxing_default",
-			"module": "chaoxing",
-			"config": {
-				"cookie": "",
-				"useragent": "",
-				"uid": "",
-				"courseid": "",
-				"classid": "",
-				"interval": 5,
-				"verbose": true
-			}
-		},
 		{
 			"name": "chaoxing_cloud_default",
 			"module": "chaoxing_cloud",
@@ -69,6 +56,31 @@ Usage of sign-your-horse.exe:
 			"name": "teachermate_cloud_default",
 			"module": "teachermate_cloud",
 			"config": {}
+		},
+		{
+			"name": "chaoxing_default",
+			"module": "chaoxing",
+			"config": {
+				"cookie": "",
+				"useragent": "",
+				"uid": "",
+				"courseid": "",
+				"classid": "",
+				"interval": 5,
+				"tasktime": [
+					{
+						"weekday": 1,
+						"time": "07:50",
+						"duration": 20
+					},
+					{
+						"weekday": 4,
+						"time": "13:50",
+						"duration": 20
+					}
+				],
+				"verbose": true
+			}
 		}
 	],
 	"reporter": [
