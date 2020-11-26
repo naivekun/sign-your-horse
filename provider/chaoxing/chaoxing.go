@@ -36,7 +36,7 @@ func (c *ChaoxingProvider) Init(alias string, configBytes json.RawMessage) error
 	}
 	for i, activeTime := range c.TaskTime {
 		if !checkActiveTime(&activeTime) {
-			return common.Raise(fmt.Sprintf("invalid date format in tasktime entry #%s", i))
+			return common.Raise(fmt.Sprintf("invalid date format in tasktime entry #%d", i))
 		}
 	}
 	common.LogWithModule(alias, "Local time is "+time.Now().String()+". Check your time and timezone carefully!")
