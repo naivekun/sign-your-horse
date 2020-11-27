@@ -11,7 +11,7 @@
 
 ![](./docs/image/main.png)
 
-## 使用方法
+## 1. 使用方法
 
 ```
 $ ./sign-your-horse -h
@@ -103,7 +103,7 @@ Usage of sign-your-horse.exe:
 
 配置文件存在后即可直接运行，或使用`-config`指定配置文件运行
 
-## 各模块说明
+## 2. 各模块说明
 
 sign-your-horse主要由以下几个模块组成
 
@@ -112,11 +112,11 @@ sign-your-horse主要由以下几个模块组成
 * Provider (cloud module + normal module)
 * Reporter
 
-### cloudscan server
+### 2.1 cloudscan server
 
 cloudscan server用于接收来自客户端上传的二维码签到信息，并分发给cloudscan client和cloud module完成签到
 
-#### 工作原理
+#### 2.1.1 工作原理
 
 [CloudScan APP](https://github.com/naivekun/cloudscan-android)/CloudScan Web -> Sign-your-horse Server -> QRCode/Redirect/Text
 
@@ -128,7 +128,7 @@ CloudScan Web使用WebRTC调用摄像头，使用此功能必须开启HTTPS或�
 
 `openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes`
 
-#### HTTP接口说明
+#### 2.1.2 HTTP接口说明
 
 * `/static/qr.html` 3秒刷新一次验证码，可供直接使用手机扫描
 * `/static/scan.html` CloudScan Web，到教室的同学使用，会使用浏览器调用摄像头，扫描二维码上传签到信息。(Thanks to @EarthC)
@@ -137,11 +137,11 @@ CloudScan Web使用WebRTC调用摄像头，使用此功能必须开启HTTPS或�
 * `/url/raw` 获取url明文
 * `/url/ws`  用于cloudscan客户端连接服务端
 
-### cloudscan client
+### 2.2 cloudscan client
 
 cloudscan client用于连接cloudscan server，从cloudscan server实时获取签到数据，并分发给自己的cloud module
 
-### Provider
+### 2.3 Provider
 
 Provider适配各个签到平台，提供Init/Run/Push方法和默认配置json。Run方法用于启动模块，常见于轮询签到的模块中。
 
@@ -149,7 +149,7 @@ Push方法在cloudscan收到消息后会被依次调用，模块会处理从clou
 
 在配置文件中provider是一个列表，可指定某个平台的某个签到任务，如果有多节课需要签到可以配置多个provider即可。
 
-#### chaoxing
+#### 2.3.1 chaoxing
 
 超星签到模块，各个参数说明如下
 
@@ -176,7 +176,7 @@ tasktime: [ // 一个列表，成员如下
 verbose: 是否显示详细信息
 ```
 
-#### chaoxing_cloud
+#### 2.3.2 chaoxing_cloud
 
 超星云签到模块，各个参数说明如下
 
@@ -189,28 +189,28 @@ courseid: "课程ID",
 classid: "班级ID",
 ```
 
-#### teachermate_cloud
+#### 2.3.3 teachermate_cloud
 
 微助教签到模块，目前仅实现了将收到的URL回传微信企业号
 
 
-### Reporter
+### 2.4 Reporter
 
 Reporter用于接收Provider推送的数据，一般来说是签到成功/失败的通知。Provider的通知会依次调用所有Reporter推送信息
 
-#### wechat
+#### 2.4.1 wechat
 
 用于向微信企业号推送消息
 
 实时反馈签到状态，并配合微助教完成一键url跳转签到
 
-#### console
+#### 2.4.2 console
 
 直接把消息print到console上
 
-## 开发
+## 3. 开发
 
-### 构建
+### 3.1 构建
 
 由于使用了静态资源，你需要使用`packr`完成构建
 
@@ -218,16 +218,16 @@ Reporter用于接收Provider推送的数据，一般来说是签到成功/失败
 $ packr build
 ```
 
-### provider
+### 3.2 provider
 
 在provider目录增加模块，实现Init和Run方法，init函数中使用`provider.RegisterProvider`注册模块即可。
 
-### reporter
+### 3.3 reporter
 
 在reporter目录增加模块，实现Init和Report方法，init函数中使用`reporter.RegisterReporter`注册模块即可
 
 自带的console模块会简单把结果打印到stdout，用它直接改是个不错的选择
 
-## License
+## 4. License
 
 MIT
