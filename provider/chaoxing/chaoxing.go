@@ -80,7 +80,9 @@ func (c *ChaoxingProvider) Run(pushMessage func(string, string) error) {
 		if isAtTaskTime {
 			c.Task()
 		} else {
-			common.LogWithModule(c.Alias, "no task to do at %s because it is not task time", time.Now().String())
+			if c.Verbose {
+				common.LogWithModule(c.Alias, "no task to do at %s because it is not task time", time.Now().String())
+			}
 		}
 		time.Sleep(time.Duration(c.TaskInterval) * time.Second)
 	}
