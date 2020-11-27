@@ -59,6 +59,7 @@ func (c *ChaoxingProvider) Push(QRMessage string) {
 	if !strings.HasPrefix(QRMessage, "SIGNIN:") {
 		return
 	}
+	c.PushMessageWithAlias("new URL submitted: " + QRMessage)
 	kvSlice := strings.Split(strings.TrimPrefix(QRMessage, "SIGNIN:"), "&")
 	params := make(map[string]string)
 	for _, kv := range kvSlice {
