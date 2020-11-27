@@ -52,7 +52,7 @@ func (t *CloudScanAPIServer) Run() {
 
 func (t *CloudScanAPIServer) Push(msg string) {
 	if t.EnableAPIServer {
-		for clientID, _ := range clientChanMap {
+		for clientID := range clientChanMap {
 			clientChanMap[clientID] <- msg
 		}
 	}
