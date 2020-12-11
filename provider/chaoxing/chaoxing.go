@@ -73,6 +73,10 @@ func (c *ChaoxingProvider) Run(pushMessage func(string, string) error) {
 		isAtTaskTime := false
 		for _, activeTime := range c.TaskTime {
 			if int(time.Now().Weekday()) == activeTime.Weekday {
+				if activeTime.Duration == 0 {
+					isAtTaskTime = true
+					break
+				}
 				t := parseActiveTime(&activeTime)
 				if t.Before(time.Now()) && t.Add(time.Minute*time.Duration(activeTime.Duration)).After(time.Now()) {
 					isAtTaskTime = true
