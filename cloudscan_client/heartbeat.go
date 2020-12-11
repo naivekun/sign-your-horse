@@ -12,9 +12,10 @@ func (c *CloudScanMessageClient) HeartBeatClient(ctx context.Context, cancel con
 	ticker := time.NewTicker(time.Second * time.Duration(c.HeartBeatInterval))
 	defer ticker.Stop()
 	for {
-		hbCtx, _ := context.WithTimeout(context.Background(), time.Second*time.Duration(3))
+		hbCtx := context.Background()
 		select {
 		case t := <-ticker.C:
+			hbCtx, _ = context.WithTimeout(hbCtx, time.Second*time.Duration(3))
 			err := c.wsConn.WriteJSON(&WSMessage{
 				MessageType: WS_HEARTBEAT_CLIENT,
 				MessageData: strconv.FormatInt(t.UnixNano(), 10),
