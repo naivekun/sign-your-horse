@@ -15,3 +15,9 @@ func Clone(oldObj interface{}) interface{} {
 
 	return newObj.Interface()
 }
+
+func CloneEmpty(oldObj interface{}) interface{} {
+	newObj := reflect.New(reflect.TypeOf(oldObj).Elem())
+
+	return newObj.Interface()
+}

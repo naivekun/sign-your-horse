@@ -34,9 +34,13 @@ func (c *ChaoxingProvider) Init(alias string, configBytes json.RawMessage) error
 	if ret != nil {
 		return ret
 	}
-	for i, activeTime := range c.TaskTime {
-		if !checkActiveTime(&activeTime) {
-			return common.Raise(fmt.Sprintf("invalid date format in tasktime entry #%d", i))
+	if c.TaskTime == nil {
+		common.LogWithModule(alias, "no tasktime specified, module %s will work at all time", alias)
+	} else {
+		for i, activeTime := range c.TaskTime {
+			if !checkActiveTime(&activeTime) {
+				return common.Raise(fmt.Sprintf("invalid date format in tasktime entry #%d", i))
+			}
 		}
 	}
 	common.LogWithModule(alias, "Local time is "+time.Now().String()+". Check your time and timezone carefully!")
@@ -77,7 +81,7 @@ func (c *ChaoxingProvider) Run(pushMessage func(string, string) error) {
 			}
 
 		}
-		if isAtTaskTime {
+		if isAtTaskTime || c.TaskTime == nil {
 			c.Task()
 		} else {
 			if c.Verbose {

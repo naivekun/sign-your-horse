@@ -53,7 +53,7 @@ func CreateProviderWithConfig(name string, alias string, config json.RawMessage)
 	if provider == nil {
 		return common.Raise("no provider named: " + name)
 	}
-	providerInstance := common.Clone(provider).(Provider)
+	providerInstance := common.CloneEmpty(provider).(Provider)
 	providerInstanceMap[name+"_"+alias] = providerInstance
 	return providerInstance.Init(alias, config)
 }
