@@ -11,8 +11,8 @@ import (
 )
 
 func (c *ChaoxingProvider) Task() {
-	extractTasksRegex := regexp.MustCompile(`activeDetail\(\d+,`)
-	extrackTaskIDRegex := regexp.MustCompile(`\d+`)
+	extractTasksRegex := regexp.MustCompile(`activeDetail\(\d+,\d+,`)
+	extrackTaskInfoRegex := regexp.MustCompile(`(?P<TaskID>\d+),(?P<TaskType>\d+)`)
 
 	r := req.New()
 	tasks, err := r.Get(
@@ -43,7 +43,16 @@ func (c *ChaoxingProvider) Task() {
 			common.LogWithModule(c.Alias, " no task in list at %s", time.Now().String())
 		} else {
 			for _, task := range tasksString {
-				taskID := extrackTaskIDRegex.Find(task)
+				taskInfo := extrackTaskInfoRegex.FindStringSubmatch(string(task))
+				if len(taskInfo) != 2 {
+					//something wrong
+					continue
+				}
+				if taskInfo[1] != "2" {
+					//not a sign-in event
+					continue
+				}
+				taskID := taskInfo[0]
 				resp, err := r.Get(
 					fmt.Sprintf("https://mobilelearn.chaoxing.com/pptSign/stuSignajax?name=&activeId=%s&uid=%s&clientip=&useragent=&latitude=-1&longitude=-1&fid=0&appType=15", string(taskID), c.UserID),
 					req.Header{
