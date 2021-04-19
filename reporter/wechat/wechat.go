@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"sign-your-horse/common"
 	"sign-your-horse/reporter"
+	"time"
 
 	"github.com/imroc/req"
 	"github.com/tidwall/gjson"
@@ -48,7 +49,7 @@ func (w *WechatReporter) Report(msg string) error {
 		MsgType: "text",
 		AgentID: w.AgentID,
 		Text: WechatPushBodyText{
-			Content: msg,
+			Content: "[" + time.Now().Format("2006-01-02 15:04:05") + "]" + msg,
 		},
 		Safe: 0,
 	}
