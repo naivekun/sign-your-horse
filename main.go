@@ -15,6 +15,7 @@ import (
 	"sign-your-horse/reporter"
 	_ "sign-your-horse/reporter/console"
 	_ "sign-your-horse/reporter/wechat"
+	_ "sign-your-horse/users/chaoxing"
 )
 
 var configFileName string
@@ -35,6 +36,7 @@ Sign-in as a Service               @naivekun`)
 	if err != nil {
 		log.Fatalln("load config error: " + err.Error())
 	}
+	conf.UpdateUserConfig(config)
 	conf.UpdateProviderConfig(config)
 	conf.UpdateReporterConfig(config)
 

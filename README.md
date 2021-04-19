@@ -40,10 +40,10 @@ Usage of sign-your-horse.exe:
 		"verbose": true,
 		"heartbeat_interval": 10
 	},
-	"provider": [
+	"users": [
 		{
-			"name": "chaoxing_cloud_default",
-			"module": "chaoxing_cloud",
+			"name": "chaoxing_user_sample",
+			"user_type": "chaoxing_user",
 			"config": {
 				"cookie": "",
 				"useragent": "",
@@ -51,21 +51,16 @@ Usage of sign-your-horse.exe:
 				"courseid": "",
 				"classid": ""
 			}
-		},
-		{
-			"name": "teachermate_cloud_default",
-			"module": "teachermate_cloud",
-			"config": {}
-		},
+		}
+	],
+	"provider": [
 		{
 			"name": "chaoxing_default",
 			"module": "chaoxing",
 			"config": {
-				"cookie": "",
-				"useragent": "",
-				"uid": "",
-				"courseid": "",
-				"classid": "",
+				"users": [
+					"chaoxing_user_sample"
+				],
 				"interval": 5,
 				"tasktime": [
 					{
@@ -81,6 +76,20 @@ Usage of sign-your-horse.exe:
 				],
 				"verbose": true
 			}
+		},
+		{
+			"name": "chaoxing_cloud_default",
+			"module": "chaoxing_cloud",
+			"config": {
+				"users": [
+					"chaoxing_user_sample"
+				]
+			}
+		},
+		{
+			"name": "teachermate_cloud_default",
+			"module": "teachermate_cloud",
+			"config": {}
 		}
 	],
 	"reporter": [
@@ -111,6 +120,7 @@ sign-your-horse主要由以下几个模块组成
 * cloudscan client
 * Provider (cloud module + normal module)
 * Reporter
+* User
 
 ### 2.1 cloudscan server
 
@@ -159,11 +169,7 @@ tasktime列表用于指定轮询签到时间，防止老师在非上课时间钓
 
 ```
 alias: "别名，用于推送消息时区分各个任务",
-cookie: "超星登录cookie",
-useragent: "User-Agent",
-uid: "超星的uid，从cookie里面扣",
-courseid: "课程ID",
-classid: "班级ID",
+users: [一个列表，里面是每个用户的name，会为每个用户运行签到任务],
 interval: 轮询间隔,
 tasktime: [ // 一个列表，成员如下，不填可以一直轮询
 	{
@@ -184,11 +190,7 @@ verbose: 是否显示详细信息
 
 ```
 alias: "别名，用于推送消息时区分各个任务",
-cookie: "超星登录cookie",
-useragent: "User-Agent",
-uid: "超星的uid，从cookie里面扣",
-courseid: "课程ID",
-classid: "班级ID",
+users: [一个列表，里面是每个用户的name，会为每个用户运行签到任务],
 ```
 
 #### 2.3.3 teachermate_cloud
@@ -210,6 +212,36 @@ Reporter用于接收Provider推送的数据，一般来说是签到成功/失败
 
 直接把消息print到console上
 
+### 2.5 User
+
+users是一个列表，每个user的配置如下
+
+```
+{
+	"name": "chaoxing_user_sample",
+	"user_type": "chaoxing_user",
+	"config": { //此部分由不同的user_type决定，目前只有chaoxing_user一种用户类型
+		"cookie": "",
+		"useragent": "",
+		"uid": "",
+		"courseid": "",
+		"classid": ""
+	}
+}
+```
+
+#### 2.5.1 chaoxing_user
+
+chaoxing_user的config配置如下
+
+```
+cookie: "超星登录cookie",
+useragent: "User-Agent",
+uid: "超星的uid，从cookie里面扣",
+courseid: "课程ID",
+classid: "班级ID",
+```
+
 ## 3. 开发
 
 ### 3.1 构建
@@ -229,6 +261,10 @@ $ packr build
 在reporter目录增加模块，实现Init和Report方法，init函数中使用`reporter.RegisterReporter`注册模块即可
 
 自带的console模块会简单把结果打印到stdout，用它直接改是个不错的选择
+
+### 3.4 users
+
+在users新增用户类型，实现Type()方法返回用户类型字符串即可
 
 ## 4. License
 

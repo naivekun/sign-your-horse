@@ -4,24 +4,25 @@ import (
 	"fmt"
 	"regexp"
 	"sign-your-horse/common"
+	"sign-your-horse/users/chaoxing"
 	"strings"
 	"time"
 
 	"github.com/imroc/req"
 )
 
-func (c *ChaoxingProvider) Task() {
+func (c *ChaoxingProvider) Task(user *chaoxing.ChaoxingUser) {
 	extractTasksRegex := regexp.MustCompile(`activeDetail\(\d+,\d+,`)
 	extrackTaskInfoRegex := regexp.MustCompile(`(?P<TaskID>\d+),(?P<TaskType>\d+)`)
 
 	r := req.New()
 	tasks, err := r.Get(
 		fmt.Sprintf("https://mobilelearn.chaoxing.com/widget/pcpick/stu/index?courseId=%s&jclassId=%s",
-			c.CourseID,
-			c.ClassID),
+			user.CourseID,
+			user.ClassID),
 		req.Header{
-			"Cookie":     c.Cookie,
-			"User-Agent": c.UserAgent,
+			"Cookie":     user.Cookie,
+			"User-Agent": user.UserAgent,
 		},
 	)
 	if err != nil {
@@ -54,10 +55,10 @@ func (c *ChaoxingProvider) Task() {
 				}
 				taskID := taskInfo[0]
 				resp, err := r.Get(
-					fmt.Sprintf("https://mobilelearn.chaoxing.com/pptSign/stuSignajax?name=&activeId=%s&uid=%s&clientip=&useragent=&latitude=-1&longitude=-1&fid=0&appType=15", string(taskID), c.UserID),
+					fmt.Sprintf("https://mobilelearn.chaoxing.com/pptSign/stuSignajax?name=&activeId=%s&uid=%s&clientip=&useragent=&latitude=-1&longitude=-1&fid=0&appType=15", string(taskID), user.UserID),
 					req.Header{
-						"Cookie":     c.Cookie,
-						"User-Agent": c.UserAgent,
+						"Cookie":     user.Cookie,
+						"User-Agent": user.UserAgent,
 					},
 				)
 				if err != nil {

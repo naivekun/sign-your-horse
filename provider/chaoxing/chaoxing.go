@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"sign-your-horse/common"
 	"sign-your-horse/provider"
+	"sign-your-horse/users"
+	"sign-your-horse/users/chaoxing"
 	"time"
 )
 
@@ -15,11 +17,7 @@ type ActiveTime struct {
 }
 
 type ChaoxingProvider struct {
-	Cookie       string       `json:"cookie"`
-	UserAgent    string       `json:"useragent"`
-	UserID       string       `json:"uid"`
-	CourseID     string       `json:"courseid"`
-	ClassID      string       `json:"classid"`
+	Users        []string     `json:"users"`
 	TaskInterval int          `json:"interval"`
 	TaskTime     []ActiveTime `json:"tasktime"`
 	Verbose      bool         `json:"verbose"`
@@ -34,6 +32,18 @@ func (c *ChaoxingProvider) Init(alias string, configBytes json.RawMessage) error
 	if ret != nil {
 		return ret
 	}
+
+	// check user exist and user type
+	for _, user := range c.Users {
+		found := users.GetUserInstance(user)
+		if found == nil {
+			return common.Raise(fmt.Sprintf("user %s not found", user))
+		}
+		if found.Type() != chaoxing.USER_TYPE {
+			return common.Raise(fmt.Sprintf("user %s must be %s", user, chaoxing.USER_TYPE))
+		}
+	}
+
 	if c.TaskTime == nil {
 		common.LogWithModule(alias, "no tasktime specified, module %s will work at all time", alias)
 	} else {
@@ -86,7 +96,9 @@ func (c *ChaoxingProvider) Run(pushMessage func(string, string) error) {
 
 		}
 		if isAtTaskTime || c.TaskTime == nil {
-			c.Task()
+			for _, user := range c.Users {
+				c.Task(users.GetUserInstance(user).(*chaoxing.ChaoxingUser))
+			}
 		} else {
 			if c.Verbose {
 				common.LogWithModule(c.Alias, "no task to do at %s because it is not task time", time.Now().String())
@@ -100,6 +112,9 @@ func (c *ChaoxingProvider) Push(_ string) {}
 
 func init() {
 	provider.RegisterProvider("chaoxing", &ChaoxingProvider{
+		Users: []string{
+			"chaoxing_user_sample",
+		},
 		TaskInterval: 5,
 		TaskTime: []ActiveTime{
 			{

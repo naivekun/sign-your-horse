@@ -11,6 +11,7 @@ import (
 type Config struct {
 	CloudScanAPIServer json.RawMessage       `json:"cloudscan"`
 	CloudScanClient    json.RawMessage       `json:"cloudscan_client"`
+	User               []UserConfigBlock     `json:"users"`
 	Provider           []ProviderConfigBlock `json:"provider"`
 	Reporter           []ReporterConfigBlock `json:"reporter"`
 }
@@ -38,6 +39,7 @@ func CreateNewConfig(filename string) error {
 	config.CloudScanClient = cloudscan_client.DumpCloudScanMessageClientConfig()
 	config.Provider = DumpProviderConfigBlock()
 	config.Reporter = DumpReporterConfigBlock()
+	config.User = DumpUserConfigBlock()
 	configBytes, err := json.MarshalIndent(config, "", "\t")
 	if err != nil {
 		return err
