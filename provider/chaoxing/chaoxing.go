@@ -18,6 +18,8 @@ type ActiveTime struct {
 
 type ChaoxingProvider struct {
 	Users        []string     `json:"users"`
+	CourseID     string       `json:"courseid"`
+	ClassID      string       `json:"classid"`
 	TaskInterval int          `json:"interval"`
 	TaskTime     []ActiveTime `json:"tasktime"`
 	Verbose      bool         `json:"verbose"`

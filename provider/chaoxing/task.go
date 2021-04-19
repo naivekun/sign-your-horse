@@ -18,8 +18,8 @@ func (c *ChaoxingProvider) Task(user *chaoxing.ChaoxingUser) {
 	r := req.New()
 	tasks, err := r.Get(
 		fmt.Sprintf("https://mobilelearn.chaoxing.com/widget/pcpick/stu/index?courseId=%s&jclassId=%s",
-			user.CourseID,
-			user.ClassID),
+			c.CourseID,
+			c.ClassID),
 		req.Header{
 			"Cookie":     user.Cookie,
 			"User-Agent": user.UserAgent,

@@ -13,7 +13,9 @@ import (
 )
 
 type ChaoxingProvider struct {
-	Users []string `json:"users"`
+	Users    []string `json:"users"`
+	CourseID string   `json:"courseid"`
+	ClassID  string   `json:"classid"`
 
 	Alias               string                     `json:"-"`
 	PushMessageCallback func(string, string) error `json:"-"`

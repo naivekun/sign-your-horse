@@ -8,8 +8,6 @@ type ChaoxingUser struct {
 	Cookie    string `json:"cookie"`
 	UserAgent string `json:"useragent"`
 	UserID    string `json:"uid"`
-	CourseID  string `json:"courseid"`
-	ClassID   string `json:"classid"`
 }
 
 func (c ChaoxingUser) Type() string {
