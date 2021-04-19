@@ -47,9 +47,7 @@ Usage of sign-your-horse.exe:
 			"config": {
 				"cookie": "",
 				"useragent": "",
-				"uid": "",
-				"courseid": "",
-				"classid": ""
+				"uid": ""
 			}
 		}
 	],
@@ -61,6 +59,8 @@ Usage of sign-your-horse.exe:
 				"users": [
 					"chaoxing_user_sample"
 				],
+				"courseid": "",
+				"classid": "",
 				"interval": 5,
 				"tasktime": [
 					{
@@ -83,7 +83,9 @@ Usage of sign-your-horse.exe:
 			"config": {
 				"users": [
 					"chaoxing_user_sample"
-				]
+				],
+				"courseid": "",
+				"classid": ""
 			}
 		},
 		{
@@ -170,6 +172,8 @@ tasktime列表用于指定轮询签到时间，防止老师在非上课时间钓
 ```
 alias: "别名，用于推送消息时区分各个任务",
 users: [一个列表，里面是每个用户的name，会为每个用户运行签到任务],
+courseid: "课程ID",
+classid: "班级ID",
 interval: 轮询间隔,
 tasktime: [ // 一个列表，成员如下，不填可以一直轮询
 	{
@@ -191,6 +195,8 @@ verbose: 是否显示详细信息
 ```
 alias: "别名，用于推送消息时区分各个任务",
 users: [一个列表，里面是每个用户的name，会为每个用户运行签到任务],
+courseid: "课程ID",
+classid: "班级ID",
 ```
 
 #### 2.3.3 teachermate_cloud
@@ -223,9 +229,7 @@ users是一个列表，每个user的配置如下
 	"config": { //此部分由不同的user_type决定，目前只有chaoxing_user一种用户类型
 		"cookie": "",
 		"useragent": "",
-		"uid": "",
-		"courseid": "",
-		"classid": ""
+		"uid": ""
 	}
 }
 ```
@@ -238,8 +242,6 @@ chaoxing_user的config配置如下
 cookie: "超星登录cookie",
 useragent: "User-Agent",
 uid: "超星的uid，从cookie里面扣",
-courseid: "课程ID",
-classid: "班级ID",
 ```
 
 ## 3. 开发
