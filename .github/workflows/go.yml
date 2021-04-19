@@ -30,11 +30,11 @@ jobs:
         fi
 
     - name: Build - Linux
-      run: GOOS=linux packr build -v . && zip release-linux.zip sign-your-horse
+      run: GOOS=linux go mod tidy && GOOS=linux packr build -v . && zip release-linux.zip sign-your-horse
     - name: Build - Windows
-      run: GOOS=windows packr build -v . && zip release-windows.zip sign-your-horse.exe
+      run: GOOS=windows go mod tidy && GOOS=windows packr build -v . && zip release-windows.zip sign-your-horse.exe
     - name: Build - MacOS
-      run: GOOS=darwin packr build -v . && zip release-macos.zip sign-your-horse
+      run: GOOS=darwin go mod tidy && GOOS=darwin packr build -v . && zip release-macos.zip sign-your-horse
 
     - name: Create Release
       id: create_release
