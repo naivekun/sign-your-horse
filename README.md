@@ -83,9 +83,7 @@ Usage of sign-your-horse.exe:
 			"config": {
 				"users": [
 					"chaoxing_user_sample"
-				],
-				"courseid": "",
-				"classid": ""
+				]
 			}
 		},
 		{
@@ -194,9 +192,7 @@ verbose: 是否显示详细信息
 
 ```
 alias: "别名，用于推送消息时区分各个任务",
-users: [一个列表，里面是每个用户的name，会为每个用户运行签到任务],
-courseid: "课程ID",
-classid: "班级ID",
+users: [一个列表，里面是每个用户的name，会为每个用户运行签到任务]
 ```
 
 #### 2.3.3 teachermate_cloud
