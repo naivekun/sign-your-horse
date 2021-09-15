@@ -1,17 +1,22 @@
 package cloudscan
 
 import (
+	"embed"
 	"encoding/json"
+	"io/fs"
+	"net/http"
 	"sign-your-horse/common"
 
 	"github.com/gin-gonic/gin"
-	"github.com/gobuffalo/packr"
 )
 
 const moduleName = "cloudscan"
 
 //MessageInputChan receive message from HTTP API, main.go will call every provider with message received from this channel
 var MessageInputChan chan string
+
+//go:embed CloudScan-WEB/build
+var staticFS embed.FS
 
 func Init(config json.RawMessage) (*CloudScanAPIServer, error) {
 	ret := &CloudScanAPIServer{}
@@ -30,7 +35,6 @@ func (t *CloudScanAPIServer) Run() {
 	}
 	defer close(t.APIMessageInputChan)
 
-	box := packr.NewBox("static")
 	gin.SetMode(gin.ReleaseMode)
 	server := gin.Default()
 	server.POST("/url/add", add)
@@ -40,7 +44,8 @@ func (t *CloudScanAPIServer) Run() {
 	if t.EnableAPIServer {
 		server.GET("/url/ws", t.handleWebSocket)
 	}
-	server.StaticFS("/static", box)
+	staticFSRoute, _ := fs.Sub(staticFS, "CloudScan-WEB/build")
+	server.NoRoute(gin.WrapH(http.FileServer(http.FS(staticFSRoute))))
 	common.LogWithModule(moduleName, "server is listening at "+t.ServerAddr)
 	if t.UseHTTPS {
 		common.Must(server.RunTLS(t.ServerAddr, t.ServerCert, t.ServerKey))

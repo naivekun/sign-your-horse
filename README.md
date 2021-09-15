@@ -244,10 +244,10 @@ uid: "超星的uid，从cookie里面扣",
 
 ### 3.1 构建
 
-由于使用了静态资源，你需要使用`packr`完成构建
-
 ```
-$ packr build
+$ git clone https://github.com/naivekun/sign-your-horse
+$ git submodule update --init --recursive
+$ make
 ```
 
 ### 3.2 provider
