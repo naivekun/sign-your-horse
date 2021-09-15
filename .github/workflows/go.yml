@@ -15,7 +15,7 @@ jobs:
     - name: Set up Go 1.x
       uses: actions/setup-go@v2
       with:
-        go-version: ^1.13
+        go-version: ^1.16
 
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
@@ -23,18 +23,18 @@ jobs:
     - name: Get dependencies
       run: |
         go get -v -t -d ./...
-        go get -u github.com/gobuffalo/packr/packr
+        git submodule update --init --recursive
         if [ -f Gopkg.toml ]; then
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
         fi
 
     - name: Build - Linux
-      run: GOOS=linux go mod tidy && GOOS=linux packr build -v . && zip release-linux.zip sign-your-horse
+      run: GOOS=linux go mod tidy && GOOS=linux make && zip release-linux.zip sign-your-horse
     - name: Build - Windows
-      run: GOOS=windows go mod tidy && GOOS=windows packr build -v . && zip release-windows.zip sign-your-horse.exe
+      run: GOOS=windows go mod tidy && GOOS=windows make && zip release-windows.zip sign-your-horse.exe
     - name: Build - MacOS
-      run: GOOS=darwin go mod tidy && GOOS=darwin packr build -v . && zip release-macos.zip sign-your-horse
+      run: GOOS=darwin go mod tidy && GOOS=darwin make && zip release-macos.zip sign-your-horse
 
     - name: Create Release
       id: create_release
