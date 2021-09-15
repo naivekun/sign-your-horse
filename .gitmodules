@@ -1,3 +1,3 @@
 [submodule "cloudscan/CloudScan-WEB"]
 	path = cloudscan/CloudScan-WEB
-	url = https://github.com/EarthCompass/CloudScan-WEB
+	url = https://github.com/naivekun/CloudScan-WEB
