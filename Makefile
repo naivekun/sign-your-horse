@@ -5,3 +5,7 @@ web:
 
 backend:
 	go build .
+
+clean:
+	rm sign-your-horse
+	rm -rd cloudscan/CloudScan-WEB/build cloudscan/CloudScan-WEB/node_modules
