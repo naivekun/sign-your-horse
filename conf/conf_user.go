@@ -18,7 +18,7 @@ func DumpUserConfigBlock() []UserConfigBlock {
 	for i, userTypeName := range userTypeNameList {
 		confJson, _ := json.Marshal(userInstanceList[i])
 		ret = append(ret, UserConfigBlock{
-			Name:     userTypeName + "_sample",
+			Name:     userTypeName + "_example",
 			UserType: userTypeName,
 			Config:   confJson,
 		})

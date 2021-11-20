@@ -115,7 +115,7 @@ func (c *ChaoxingProvider) Push(_ string) {}
 func init() {
 	provider.RegisterProvider("chaoxing", &ChaoxingProvider{
 		Users: []string{
-			"chaoxing_user_sample",
+			"chaoxing_user_example",
 		},
 		TaskInterval: 5,
 		TaskTime: []ActiveTime{

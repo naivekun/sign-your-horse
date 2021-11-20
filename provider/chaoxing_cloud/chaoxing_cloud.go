@@ -3,6 +3,7 @@ package chaoxing
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"sign-your-horse/common"
 	"sign-your-horse/provider"
 	"sign-your-horse/users"
@@ -42,6 +43,7 @@ func (c *ChaoxingProvider) PushMessageWithAlias(msg string) error {
 
 func (c *ChaoxingProvider) Task(user *chaoxing.ChaoxingUser, params map[string]string) {
 	taskID := params["aid"]
+	log.Println("task " + string(taskID) + " running for " + user.UserID)
 	r := req.New()
 	resp, err := r.Get(
 		fmt.Sprintf(
@@ -88,7 +90,7 @@ func (c *ChaoxingProvider) Push(QRMessage string) {
 func init() {
 	provider.RegisterProvider("chaoxing_cloud", &ChaoxingProvider{
 		Users: []string{
-			"chaoxing_user_sample",
+			"chaoxing_user_example",
 		},
 	})
 }

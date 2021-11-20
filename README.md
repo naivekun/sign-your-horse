@@ -42,7 +42,7 @@ Usage of sign-your-horse.exe:
 	},
 	"users": [
 		{
-			"name": "chaoxing_user_sample",
+			"name": "chaoxing_user_example",
 			"user_type": "chaoxing_user",
 			"config": {
 				"cookie": "",
@@ -57,7 +57,7 @@ Usage of sign-your-horse.exe:
 			"module": "chaoxing",
 			"config": {
 				"users": [
-					"chaoxing_user_sample"
+					"chaoxing_user_example"
 				],
 				"courseid": "",
 				"classid": "",
@@ -82,7 +82,7 @@ Usage of sign-your-horse.exe:
 			"module": "chaoxing_cloud",
 			"config": {
 				"users": [
-					"chaoxing_user_sample"
+					"chaoxing_user_example"
 				]
 			}
 		},
@@ -220,7 +220,7 @@ users是一个列表，每个user的配置如下
 
 ```
 {
-	"name": "chaoxing_user_sample",
+	"name": "chaoxing_user_example",
 	"user_type": "chaoxing_user",
 	"config": { //此部分由不同的user_type决定，目前只有chaoxing_user一种用户类型
 		"cookie": "",
