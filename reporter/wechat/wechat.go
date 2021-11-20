@@ -53,6 +53,7 @@ func (w *WechatReporter) Report(msg string) error {
 		},
 		Safe: 0,
 	}
+	r.SetJSONEscapeHTML(false)
 	pushResp, err := r.Post(fmt.Sprintf("https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=%s", token), req.BodyJSON(pushBody))
 	if err != nil {
 		return err

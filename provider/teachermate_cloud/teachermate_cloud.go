@@ -2,6 +2,7 @@ package teachermate_cloud
 
 import (
 	"encoding/json"
+	"log"
 	"sign-your-horse/provider"
 	"strings"
 )
@@ -23,7 +24,10 @@ func (t *TeacherMateProvider) Run(pushMessage_ func(string, string) error) {
 
 func (t *TeacherMateProvider) Push(msg string) {
 	if strings.HasPrefix(msg, "http") {
-		pushMessage(t.Alias, "Teachermate new URL submitted: "+msg)
+		err := pushMessage(t.Alias, "Teachermate new URL submitted: "+msg)
+		if err != nil {
+			log.Println("pushMessage failed: ", err.Error())
+		}
 	}
 }
 
